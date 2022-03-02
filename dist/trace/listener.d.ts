@@ -54,7 +54,7 @@ export declare class TraceListener {
      * @param shouldTagPayload
      */
     onEndingInvocation(event: any, result: any, shouldTagPayload?: boolean): void;
-    onCompleteInvocation(error?: any): Promise<void>;
+    onCompleteInvocation(): Promise<void>;
     onWrap<T = (...args: any[]) => any>(func: T): T;
 }
 //# sourceMappingURL=listener.d.ts.map
