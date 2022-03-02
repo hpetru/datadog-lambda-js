@@ -143,7 +143,7 @@ export class TraceListener {
     }
   }
 
-  public async onCompleteInvocation(didThrow?: any) {
+  public async onCompleteInvocation(result?: any) {
     // Create a new dummy Datadog subsegment for function trigger tags so we
     // can attach them to X-Ray spans when hybrid tracing is used
     if (this.triggerTags) {
@@ -161,9 +161,9 @@ export class TraceListener {
       const finishTime = this.inferredSpan.isAsync() ? this.wrappedCurrentSpan?.startTime() : Date.now();
       this.inferredSpan.finish(finishTime);
 
-      if (didThrow) {
+      if (result) {
         logDebug("Setting error tag to inferred span");
-        this.inferredSpan.setTag("error", true);
+        this.inferredSpan.setTag("error", result);
       }
     }
   }

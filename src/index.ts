@@ -149,7 +149,7 @@ export function datadog<TEvent, TResult>(
         incrementErrorsMetric(metricsListener, context);
       }
       await metricsListener.onCompleteInvocation();
-      await traceListener.onCompleteInvocation(didThrow);
+      await traceListener.onCompleteInvocation(result);
     } catch (err) {
       if (err instanceof Error) {
         logDebug("Failed to complete listeners", err);
