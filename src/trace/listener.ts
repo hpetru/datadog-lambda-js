@@ -139,11 +139,15 @@ export class TraceListener {
       }
       if (this.inferredSpan) {
         this.inferredSpan.setTag("http.status_code", statusCode);
+
+        if (statusCode) {
+          this.inferredSpan.setTag("error", Number(statusCode) >= 500);
+        }
       }
     }
   }
 
-  public async onCompleteInvocation(error?: any) {
+  public async onCompleteInvocation() {
     // Create a new dummy Datadog subsegment for function trigger tags so we
     // can attach them to X-Ray spans when hybrid tracing is used
     if (this.triggerTags) {
@@ -157,14 +161,8 @@ export class TraceListener {
     }
     if (this.inferredSpan) {
       logDebug("Finishing inferred span");
-
       const finishTime = this.inferredSpan.isAsync() ? this.wrappedCurrentSpan?.startTime() : Date.now();
       this.inferredSpan.finish(finishTime);
-
-      if (error && !this.inferredSpan.isAsync()) {
-        logDebug("Setting error tag to inferred span");
-        this.inferredSpan.setTag("error", error);
-      }
     }
   }
 
