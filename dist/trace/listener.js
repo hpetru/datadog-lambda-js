@@ -147,7 +147,7 @@ var TraceListener = /** @class */ (function () {
             }
         }
     };
-    TraceListener.prototype.onCompleteInvocation = function (error) {
+    TraceListener.prototype.onCompleteInvocation = function (didThrow) {
         var _a;
         return __awaiter(this, void 0, void 0, function () {
             var tracerInitialized, finishTime;
@@ -166,9 +166,9 @@ var TraceListener = /** @class */ (function () {
                     (0, utils_1.logDebug)("Finishing inferred span");
                     finishTime = this.inferredSpan.isAsync() ? (_a = this.wrappedCurrentSpan) === null || _a === void 0 ? void 0 : _a.startTime() : Date.now();
                     this.inferredSpan.finish(finishTime);
-                    if (error) {
+                    if (didThrow) {
                         (0, utils_1.logDebug)("Setting error tag to inferred span");
-                        this.inferredSpan.setTag("error", error);
+                        this.inferredSpan.setTag("error", true);
                     }
                 }
                 return [2 /*return*/];

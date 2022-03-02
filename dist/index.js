@@ -199,7 +199,7 @@ function datadog(handler, config) {
                     return [4 /*yield*/, metricsListener.onCompleteInvocation()];
                 case 10:
                     _a.sent();
-                    return [4 /*yield*/, traceListener.onCompleteInvocation(error)];
+                    return [4 /*yield*/, traceListener.onCompleteInvocation(didThrow)];
                 case 11:
                     _a.sent();
                     return [3 /*break*/, 13];
