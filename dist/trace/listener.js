@@ -144,13 +144,10 @@ var TraceListener = /** @class */ (function () {
             }
             if (this.inferredSpan) {
                 this.inferredSpan.setTag("http.status_code", statusCode);
-                if (statusCode) {
-                    this.inferredSpan.setTag("error", Number(statusCode) >= 500);
-                }
             }
         }
     };
-    TraceListener.prototype.onCompleteInvocation = function () {
+    TraceListener.prototype.onCompleteInvocation = function (error) {
         var _a;
         return __awaiter(this, void 0, void 0, function () {
             var tracerInitialized, finishTime;
@@ -169,6 +166,10 @@ var TraceListener = /** @class */ (function () {
                     (0, utils_1.logDebug)("Finishing inferred span");
                     finishTime = this.inferredSpan.isAsync() ? (_a = this.wrappedCurrentSpan) === null || _a === void 0 ? void 0 : _a.startTime() : Date.now();
                     this.inferredSpan.finish(finishTime);
+                    if (error) {
+                        (0, utils_1.logDebug)("Setting error tag to inferred span");
+                        this.inferredSpan.setTag("error", error);
+                    }
                 }
                 return [2 /*return*/];
             });

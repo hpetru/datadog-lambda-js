@@ -161,7 +161,7 @@ export class TraceListener {
       const finishTime = this.inferredSpan.isAsync() ? this.wrappedCurrentSpan?.startTime() : Date.now();
       this.inferredSpan.finish(finishTime);
 
-      if (error && !this.inferredSpan.isAsync()) {
+      if (error) {
         logDebug("Setting error tag to inferred span");
         this.inferredSpan.setTag("error", error);
       }
